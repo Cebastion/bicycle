@@ -46,7 +46,7 @@ export class UserService {
 
   static async SignUp(phone_number: string, password: string, name: string) {
     try {
-      const { data } = await axios.post("https://serverbicycle.vercel.app/signup", { name, phone_number, password })
+      const { data } = await axios.post("https://serverbicycle.vercel.app/user/signup", { name, phone_number, password })
       console.log(data)
       sessionStorage.setItem("User", JSON.stringify(data))
       sessionStorage.setItem("token", JSON.stringify(data.token))
@@ -61,7 +61,7 @@ export class UserService {
 
   static async LogIn(phone_number: string, password: string) {
     try {
-      const { data } = await axios.post("https://serverbicycle.vercel.app/login", { phone_number, password })
+      const { data } = await axios.post("https://serverbicycle.vercel.app/user/login", { phone_number, password })
       sessionStorage.setItem("User", JSON.stringify(data))
       sessionStorage.setItem("token", JSON.stringify(data.token))
       window.location.assign("/dashboard")
