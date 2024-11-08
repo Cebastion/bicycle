@@ -75,7 +75,14 @@ const Buy = () => {
 
   const sendTransaction = async () => {
     if (!Account || !web3) {
-      alert("Error");
+      alert("Кажется, вы не подключили кошелек! Попробуйте разблокировать его и подключить вручную.");
+      // Пытаемся подключить кошелек
+      await GetAccount();
+
+      // Если подключение удалось, повторяем попытку отправки транзакции
+      if (Account && web3) {
+        await sendTransaction();
+      }
       return;
     }
 
