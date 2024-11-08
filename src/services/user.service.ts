@@ -6,7 +6,7 @@ export class UserService {
 
   static async GetBicyclesByID(token: string) {
     try {
-      const { data } = await axios.get<IBicycle[]>(`https://serverbicycle.vercel.app/bicycle/`, {
+      const { data } = await axios.get<IBicycle[]>(`https://bicycleserver.vercel.app/bicycle/`, {
         headers: {
           Authorization: `Bearer ${token}`  // Добавляем токен в заголовок
         }
@@ -26,7 +26,7 @@ export class UserService {
   static async GetUser(token: string) {
     try {
       console.log(token)
-      const { data } = await axios.get<IUser>(`https://serverbicycle.vercel.app/user/`, {
+      const { data } = await axios.get<IUser>(`https://bicycleserver.vercel.app/user/`, {
         headers: {
           Authorization: `Bearer ${token}`  // Добавляем токен в заголовок
         }
@@ -46,7 +46,7 @@ export class UserService {
 
   static async SignUp(phone_number: string, password: string, name: string) {
     try {
-      const { data } = await axios.post("https://serverbicycle.vercel.app/user/signup", { name, phone_number, password })
+      const { data } = await axios.post("https://bicycleserver.vercel.app/user/signup", { name, phone_number, password })
       console.log(data)
       sessionStorage.setItem("User", JSON.stringify(data))
       sessionStorage.setItem("token", JSON.stringify(data.token))
@@ -61,7 +61,7 @@ export class UserService {
 
   static async LogIn(phone_number: string, password: string) {
     try {
-      const { data } = await axios.post("https://serverbicycle.vercel.app/user/login", { phone_number, password })
+      const { data } = await axios.post("https://bicycleserver.vercel.app/user/login", { phone_number, password })
       sessionStorage.setItem("User", JSON.stringify(data))
       sessionStorage.setItem("token", JSON.stringify(data.token))
       window.location.assign("/dashboard")
@@ -75,7 +75,7 @@ export class UserService {
 
   static async Buy(userID: number, name: string, Daily_income: number, token: string) {
     try {
-      const { data } = await axios.post("https://serverbicycle.vercel.app/bicycle", { userID, name, Daily_income }, {
+      const { data } = await axios.post("https://bicycleserver.vercel.app/bicycle", { userID, name, Daily_income }, {
         headers: {
           Authorization: `Bearer ${token}`  // Добавляем токен в заголовок
         }
@@ -92,7 +92,7 @@ export class UserService {
 
   static async Withdraw(amount: number, address: string, token: string) {
     try {
-      await axios.post("https://serverbicycle.vercel.app/payment/withdraw", { amount, address }, {
+      await axios.post("https://bicycleserver.vercel.app/payment/withdraw", { amount, address }, {
         headers: {
           Authorization: `Bearer ${token}`  // Добавляем токен в заголовок
         }
