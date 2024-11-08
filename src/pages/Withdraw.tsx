@@ -53,16 +53,36 @@ const Withdraw = () => {
     }
   }
 
+
   const Withdraw = async () => {
-    const token = sessionStorage.getItem("token")
-    if (token) {
-      const TokenParse = JSON.parse(token)
-      const User = await UserService.GetUser(TokenParse)
-      if (User && Account && User.user.score >= +Sum) {
-        await UserService.Withdraw(+Sum, Account, TokenParse)
+    const token = sessionStorage.getItem("token");
+
+    if (!Account) {
+      alert("Кажется, вы не подключили кошелек! Попробуйте разблокировать его и подключить вручную.");
+      // Пытаемся подключить кошелек
+      await GetAccount();
+
+      // Если подключение удалось, повторяем попытку вывода средств
+      if (Account) {
+        await Withdraw(); // Рекурсивный вызов для повторного выполнения
       }
+      return;
     }
-  }
+
+    if (token) {
+      const TokenParse = JSON.parse(token);
+      const User = await UserService.GetUser(TokenParse);
+
+      if (User && User.user.score >= +Sum) {
+        await UserService.Withdraw(+Sum, Account, TokenParse);
+      } else {
+        alert("Недостаточно средств для вывода.");
+      }
+    } else {
+      alert("Не удалось получить токен. Пожалуйста, авторизуйтесь снова.");
+    }
+  };
+
 
 
   useEffect(() => {
